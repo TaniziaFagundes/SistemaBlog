@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/articles", (req, resp) => {
-    resp.send("Rota de artigos")
+    resp.send("Rota de artigos DE TANIZIA")
 });
 
 router.get("/admin/articles/new",(req, resp) => {
@@ -10,3 +10,4 @@ router.get("/admin/articles/new",(req, resp) => {
 });
 
 module.exports = router;
+

@@ -17,7 +17,7 @@ const Article = connection.define('articles', {
 Category.hasMany(Article); //hasMany(tem muitos), uma categoria tem muitos artigos
 Article.belongsTo(Category); //belongsTo(pertence a), 1articles pertence a 1categoria
 
-// Article.sync({force: true});   //ESSA LINHA É NECESSARIA SOMENTE NA PRIMEIRA VEZ QUE EXECUTAR A CRIAÇÃO
+// Article.sync({force: true});   //ESSA LINHA É NECESSARIA SOMENTE NA PRIMEIRA VEZ QUE EXECUTAR ESTE ARQUIVO
 
 module.exports = Article;
 
