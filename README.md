@@ -12,3 +12,7 @@ npm install --save mysql2 <br>
 npm install --save sequelize <br>
 npm install --save body-parser <br>
 npm install --save slugify <br>
+
+para realizar a insertion de senhas com segurança na base de dados, foi usado a biblioteca BSCRYPTJS, instalaçao:<br>
+
+npm install --save bscryptjs<br>
