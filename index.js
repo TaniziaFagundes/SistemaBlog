@@ -18,8 +18,7 @@ connection.authenticate()
 
 
 
-app.use("/", CategoriesController);  //rodando as rotas importadas do arquivo categoriescontroller
-app.use("/", ArticlesController)
+
 
 //view enginer
 app.set('view engine', 'ejs');
@@ -30,6 +29,10 @@ app.use(express.static('public'));
 //body-parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+app.use("/", CategoriesController);  //rodando as rotas importadas do arquivo categoriescontroller
+app.use("/", ArticlesController)
+
 
 app.get("/", (req, resp) => {
     resp.render("index")
