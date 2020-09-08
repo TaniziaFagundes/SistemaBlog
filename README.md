@@ -11,4 +11,4 @@ npm install --save ejs  <br>
 npm install --save mysql2 <br>
 npm install --save sequelize <br>
 npm install --save body-parser <br>
-npm istall --save slugify <br>
+npm install --save slugify <br>
