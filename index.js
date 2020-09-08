@@ -3,11 +3,13 @@ const bodyParser = require("body-parser");
 const app = express();
 const connection = require("./database/database");
 
-const CategoriesController = require("./categories/CategoriesController")
-const ArticlesController = require("./articles/ArticlesController")
+const CategoriesController = require("./categories/CategoriesController");
+const ArticlesController = require("./articles/ArticlesController");
+const UsersController = require("./user/UsersController");
 
 const Article = require("./articles/Articles")
 const Categories = require("./categories/Category")
+const User = require("./user/User")
 
 connection.authenticate()
         .then(()=> {
@@ -32,12 +34,13 @@ app.use(bodyParser.json());
 
 app.use("/", CategoriesController);  //rodando as rotas importadas do arquivo categoriescontroller
 app.use("/", ArticlesController)
+app.use("/", UsersController);
 
 
 app.get("/", (req, resp) => {
     resp.render("index")
 })
 
-app.listen(8080,()=>{
+app.listen(3000,()=>{
     console.log("o servidor está rodando")
 })
