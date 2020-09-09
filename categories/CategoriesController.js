@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router(); //usar router ao invés de app (só muda o nome mesmo)
 const Category = require("./Category"); //category tabela do banco
 const slugify = require("slugify");
+const adminAuth = require("../middleware/adminAuth");
 
 
 
-router.get("/admin/categories/new",(req,res) => {
+router.get("/admin/categories/new",adminAuth,(req,res) => {
     res.render("admin/categories/new");
 });
 
-router.post("/categories/save",(req, res) => {  //method post para form
+router.post("/categories/save",adminAuth,(req, res) => {  //method post para form
     var title = req.body.title;
 
     if(title != undefined && title != " "){
@@ -26,13 +27,13 @@ router.post("/categories/save",(req, res) => {  //method post para form
     }
 });
 
-router.get("/admin/categories", (req, res) => {
+router.get("/admin/categories",adminAuth, (req, res) => {
     Category.findAll().then(categories => {
         res.render("admin/categories/index",{categories: categories})
     })
 });
 
-router.post("/admin/categories/delete" , (req, res) => {
+router.post("/admin/categories/delete",adminAuth , (req, res) => {
     var id = req.body.id;
     if(id != undefined){
         if(!isNaN(id)){ //se for numerico delete
@@ -50,7 +51,7 @@ router.post("/admin/categories/delete" , (req, res) => {
     }
 })
 
-router.get("/admin/categories/edit/:id", (req,res) => {
+router.get("/admin/categories/edit/:id",adminAuth, (req,res) => {
     var id = req.params.id;  //use the params here
 
     Category.findByPk(id).then(category => {
@@ -65,7 +66,7 @@ router.get("/admin/categories/edit/:id", (req,res) => {
     })
 });
 
-router.post("/admin/categories/update", (req, res) => {
+router.post("/admin/categories/update",adminAuth, (req, res) => {
     var id = req.body.id;
     var title = req.body.title;
 
