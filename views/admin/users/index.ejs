@@ -25,10 +25,10 @@
                             <th><%= user.email%></th>
                             <th>
                                 <form method="POST" action="" style="display: inline;">
-                                    <input type="hidden" name="id"  value="<%=user.id%>">
+                                    <input type="hidden" name="id"  value="<%= user.id %>">
                                     <a href="/admin/users/edit/<%=user.id%>" class="btn btn-warning">Editar</a>
                                 </form>
-                                <form method="POST" action="/admin/users/delete" style="display: inline;">
+                                <form method="POST" action="/admin/users/delete" style="display: inline;"  onsubmit="confirmarDelete(event, this)">
                                     <input type="hidden" name="id" value="<%=user.id%>">
                                     <button class="btn btn-danger">Deletar</button>
                                 </form>
@@ -43,3 +43,12 @@
 </div>
 
 <%- include("../../partials/footer.ejs") %>
+<script> //aula 84 (confirmacao de delete)
+    function confirmarDelete(event,form){  //impede que o form seja submetido pelo onsubmit do form (antes ele precisa confirmar)
+        event.preventDefault();
+        var decision =  confirm("Apagar esse admin ?")
+        if(decision){ //se verdadeiro
+            form.submit();
+        }
+    }
+</script>

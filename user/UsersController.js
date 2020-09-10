@@ -45,11 +45,14 @@ router.post("/users/create", (req, res) => {
 
 })
 
+
+//UPDATE
+
 router.get("/admin/users/edit/:id", adminAuth, (req,res) => {
     var id = req.params.id;
 
     User.findByPk(id).then(user => {
-        console.log("ENTROU AQUI E O USER É :" + user.id)
+        //console.log("ENTROU AQUI E O USER É :" + user.id)
 
         if(user != undefined && !isNaN(id)){
             res.render("admin/users/edit", {user: user});
@@ -64,17 +67,33 @@ router.get("/admin/users/edit/:id", adminAuth, (req,res) => {
 router.post("/admin/users/update",adminAuth ,(req, res) => {
     var id = req.body.id;
     var nome = req.body.nome;
+    var email = req.body.email;
     var password = req.body.password;
 
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
     
-    User.update({nome: nome, password: hash}, {
+    User.update({nome: nome, email:email, password: hash}, {
         where:{id:id}
     }).then(()=> {
         res.redirect("/admin/users");
     });
 });
+
+//DELETE
+
+router.post("/admin/users/delete", adminAuth ,(req,res) => {
+    var id = req.body.id;
+
+    if(id != undefined && !isNaN(id)){
+        User.destroy({
+            where:{id:id}
+        }).then(() => {
+            res.redirect("/admin/users");
+        })
+    }
+
+})
 
 
 

@@ -35,19 +35,14 @@ router.get("/admin/categories",adminAuth, (req, res) => {
 
 router.post("/admin/categories/delete",adminAuth , (req, res) => {
     var id = req.body.id;
-    if(id != undefined){
-        if(!isNaN(id)){ //se for numerico delete
-            Category.destroy({
-                where:{id:id}
-            }).then(() => {
-                res.redirect("/admin/categories")
-            })
 
-        }else{ //se não for numerico redirect
+    //diminuir a quantidade de codigos aqui, no curso tem dois ifs
+    if(id != undefined && !isNaN(id)){
+        Category.destroy({
+            where:{id:id}
+        }).then(() => {
             res.redirect("/admin/categories");
-        }
-    }else{ //se for nullo redirect
-        res.redirect("/admin/categories");
+        })
     }
 })
 
