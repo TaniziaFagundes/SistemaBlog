@@ -45,6 +45,39 @@ router.post("/users/create", (req, res) => {
 
 })
 
+router.get("/admin/users/edit/:id", adminAuth, (req,res) => {
+    var id = req.params.id;
+
+    User.findByPk(id).then(user => {
+        console.log("ENTROU AQUI E O USER É :" + user.id)
+
+        if(user != undefined && !isNaN(id)){
+            res.render("admin/users/edit", {user: user});
+        }else{
+            res.redirect("/admin/users")
+        }
+    }).catch(erro => {
+        res.redirect("/admin/users")
+    })
+})
+
+router.post("/admin/users/update",adminAuth ,(req, res) => {
+    var id = req.body.id;
+    var nome = req.body.nome;
+    var password = req.body.password;
+
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
+    
+    User.update({nome: nome, password: hash}, {
+        where:{id:id}
+    }).then(()=> {
+        res.redirect("/admin/users");
+    });
+});
+
+
+
 
 router.get("/login", (req, res) => {
     res.render("admin/users/login");

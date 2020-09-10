@@ -34,7 +34,7 @@ app.use(express.static('public'));
 
 app.use(session({
     secret: "pode-inserir-qualquer-coisa-aleatoria-aqui-é-para-segurança-da-session",
-    cookie: {maxAge: 30000 }, //tempo para expirar, é usado milisegundos, 30000 = 3s
+    cookie: {maxAge: 900000 }, //tempo para expirar, é usado milisegundos, 30000 = 3s
 
 }))
 
