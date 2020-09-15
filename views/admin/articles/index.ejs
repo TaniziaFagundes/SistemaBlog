@@ -1,0 +1,55 @@
+<%- include("../../partials/header.ejs") %>
+<%- include("../../partials/navbar.ejs") %>
+
+<div class="container">
+    <hr>
+        <div class="clearfix"> <!--clearflix clear the floats-->
+            <h2 class="float-left">Artigos</h2>
+            <a class="btn btn-success float-right" href="/admin/articles/new">Criar novo artigo</a>
+        </div>
+    <hr>
+    <table class="table table-bordered">
+        <thead> <!--cabecalho-->
+            <tr> <!--uma linha da table-->
+                <th>ID</th><!--as colunas da linha--> 
+                <th>Títulos</th>
+                <th>Slug</th>
+                <th>category</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+                <% articles.forEach(article => { %>
+                    <tr>
+                        <td><%=article.id%></td>
+                        <td><%=article.title%></td>
+                        <td><%=article.slug%></td>
+                        <td><%=article.category.title%></td>  
+                        <th>
+                            <form method="POST" action="" style="display: inline;">
+                                <input type="hidden" name="id" value=" <%= article.id %> "> <!--tipo hidden  == escondido-->
+                                <a href="/admin/articles/edit/<%= article.id %>" class="btn btn-warning">Editar</a>
+                            </form>
+                            <form method="POST" action="/admin/articles/delete" style="display: inline;" onsubmit="confirmarDelete(event, this)"> 
+                                <input type="hidden" name="id" value=" <%= article.id %> ">
+                                <button class="btn btn-danger">Deletar</button>
+                            </form>
+                        </th>
+
+                    </tr>
+                
+                <%})%>
+        </tbody>
+    </table>
+</div>
+
+<%- include("../../partials/footer.ejs") %>
+<script> //aula 84 (confirmacao de delete)
+    function confirmarDelete(event,form){  //impede que o form seja submetido pelo onsubmit do form (antes ele precisa confirmar)
+        event.preventDefault();
+        var decision =  confirm("Apagar esse artigo?")
+        if(decision){ //se verdadeiro
+            form.submit();
+        }
+    }
+</script>

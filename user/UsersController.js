@@ -73,7 +73,7 @@ router.post("/admin/users/update",adminAuth ,(req, res) => {
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
     
-    User.update({nome: nome, email:email, password: hash}, {
+    User.update({nome: nome, email:email  , password: hash}, {
         where:{id:id}
     }).then(()=> {
         res.redirect("/admin/users");

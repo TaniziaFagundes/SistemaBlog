@@ -58,7 +58,9 @@ app.get("/leitura", (res, req) => {
 
 
 app.get("/", (req, resp) => {
-    resp.render("index")
+    Article.findAll().then(articles => {
+        resp.render("index",{articles: articles} )
+    })
 })
 
 app.listen(3000,()=>{

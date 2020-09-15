@@ -1,0 +1,42 @@
+<%- include("../../partials/header.ejs") %>
+<%- include("../../partials/navbar.ejs") %>
+<body>
+    <div class="container"> 
+        <hr>
+        <div class="card">
+            
+            <div class="card-header">
+                <h2>Atualizar Artigo</h2>
+            </div>
+
+            <div class="card-body">
+                <form method="POST" action="/admin/articles/update">
+                    <input class="form-control" type="text" name="title" value="<%= article.title %>"><br>
+                    <textarea class="form-control" name="body" id="article" placeholder="<%= article.body %>"></textarea><br>
+                    <input type="hidden" name="id" value="<%= article.id %>">
+                    <label>Categoria</label>
+                    <select class="form-control" name="category" id="">
+                        <% categories.forEach((category) => { %>
+                            <option value="<%= category.id %>"><%= category.title%></option>
+                        <%})%>
+                    </select><br>
+                    <button class="btn btn-success float-lg-right">Atualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<%- include("../../partials/footer.ejs") %>
+
+<script src="/tinymce/tinymce.min.js"></script>  
+<!--o id="article" do textarea que idntifica quem vai receber o tinymce-->
+
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector:"#article",
+        plugins:[
+        'advlist autolist link image lists print preview hr searcheplace wordcount fullscreen insertdatetime media save table paste emoticons'] //plugins separados por virgunlar, print ==imprimir
+    })
+</script>
