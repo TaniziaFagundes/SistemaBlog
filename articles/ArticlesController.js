@@ -87,5 +87,43 @@ router.post("/admin/articles/delete", (req,resp) => {
 })
 
 
+//PAGINACAO
+router.get("/articles/page/:num", (req,resp) => {
+    var page = req.params.num;
+    var offset = 0;
+
+    if(isNaN(page) || page == 1){   //AULA 110
+        offset = 0;
+    }else{
+        offset = (parseInt(page) -1) * 4;
+    }
+
+    Article.findAndCountAll({ // esse metodo retorna tambem a contagem de elementos
+        limit: 4,              //quantidade de elementos por pagina
+        offset: offset,
+        order:[['id','DESC']]    
+    }).then(articles => { 
+
+        //existe uma proxima pagina?
+        var next;
+        if(offset + 4 >= articles.count){ //ser articles.count <= 4 não existe mais paginas
+            next= false;
+        }else{
+            next=true;
+        }
+
+        var result = {
+            page:parseInt(page),
+            next: next,
+            articles: articles
+        }
+
+        Category.findAll().then(categories => {
+            resp.render("admin/articles/page", {result:result, categories:categories})
+        })
+    })
+})
+
+
 module.exports = router;
 

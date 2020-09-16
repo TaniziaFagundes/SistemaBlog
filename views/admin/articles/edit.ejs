@@ -12,18 +12,27 @@
             <div class="card-body">
                 <form method="POST" action="/admin/articles/update">
                     <input class="form-control" type="text" name="title" value="<%= article.title %>"><br>
-                    <textarea class="form-control" name="body" id="article" placeholder="<%= article.body %>"></textarea><br>
+                    <textarea class="form-control" name="body" id="article" placeholder=""></textarea><br>
                     <input type="hidden" name="id" value="<%= article.id %>">
                     <label>Categoria</label>
                     <select class="form-control" name="category" id="">
+
                         <% categories.forEach((category) => { %>
-                            <option value="<%= category.id %>"><%= category.title%></option>
+                            <% if(category.id == article.categoryId){ %>
+                                <option value="<%=category.id %>" selected><%=category.title%></option>
+                            <% }else{ %>
+                                <option value="<%=category.id %>"><%=category.title %></option>
+                            <% } %>
                         <%})%>
+                         
                     </select><br>
                     <button class="btn btn-success float-lg-right">Atualizar</button>
                 </form>
             </div>
         </div>
+    </div>
+    <div id="content" style="display: none;">
+        <%= article.body %>
     </div>
 </body>
 
@@ -37,6 +46,9 @@
         language: 'pt_BR',
         selector:"#article",
         plugins:[
-        'advlist autolist link image lists print preview hr searcheplace wordcount fullscreen insertdatetime media save table paste emoticons'] //plugins separados por virgunlar, print ==imprimir
+        'advlist autolist link image lists print preview hr searcheplace wordcount fullscreen insertdatetime media save table paste emoticons'], //plugins separados por virgunlar, print ==imprimir
+        init_instance_callback: () => {  // AULA 109
+            tinymce.get("article").setContent($("#content").html())
+        }
     })
 </script>

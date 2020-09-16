@@ -1,5 +1,5 @@
-<%- include('partials/header.ejs') %>
-<%- include('partials/homenavbar.ejs') %>
+<%- include("partials/header.ejs") %>
+<%- include("partials/homenavbar.ejs") %>
 
 <body>
     <div class="container">
@@ -12,14 +12,23 @@
             <div class="card">
                 <div class="card-header clearfix">
                     <h2 class="float-left"><%= article.title %></h2>
-                    <a href="a" class="btn btn-success float-right">Ler Artigo</a>
+                    <a href="/<%= article.slug %>" class="btn btn-success float-right">Ler Artigo</a>
                 </div>
                 <div class="card-body">  
                 </div>
             </div>
             <br>
         <% }) %>
+
+        <!--PAGINACAO-->
+        <div class="row">
+            <div class="col col-12 ">
+                <a  href="/articles/page/2">Next >>></a>
+            </div>
+            <hr>
+        </div>
+        <hr>
     </div>
 </body>
 
-<%- include('partials/footer.ejs') %>
+<%- include("partials/footer.ejs") %>

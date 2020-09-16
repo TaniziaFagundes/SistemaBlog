@@ -10,7 +10,9 @@ const UsersController = require("./user/UsersController");
 
 const Article = require("./articles/Articles")
 const Categories = require("./categories/Category")
-const User = require("./user/User")
+const User = require("./user/User");
+const Category = require("./categories/Category");
+
 
 connection.authenticate()
         .then(()=> {
@@ -58,11 +60,56 @@ app.get("/leitura", (res, req) => {
 
 
 app.get("/", (req, resp) => {
-    Article.findAll().then(articles => {
-        resp.render("index",{articles: articles} )
+    Article.findAll({
+        order:[['id','DESC']],
+        limit:4               //limitando quantidade de artigos por pagina
+    }).then(articles => {
+        Category.findAll().then(categories =>{
+            resp.render("index",{articles: articles, categories: categories} )
+        })
     })
 })
+
+app.get("/:slug", (req,resp) => {
+    var slug = req.params.slug;
+
+    Article.findOne({
+        where:{slug:slug}
+    }).then(article => {
+        if(article != undefined){
+            Category.findAll().then(categories =>{
+                resp.render("article",{article:article, categories: categories} )
+            })
+        }else{
+            resp.render("/");
+        }
+    }).catch(erro => {
+        resp.render("/");
+    })
+})
+
+app.get("/category/:slug",(req, resp) => {
+    var slug = req.params.slug;
+    Category.findOne({
+        where:{
+            slug:slug
+        },
+        include:[{model:Article}]  //traz todos os artigos que fazem parte da categoria
+    }).then(category => {
+        if(category != undefined) {
+            Category.findAll().then(categories => {
+                resp.render("index",{articles:category.articles, categories:categories})
+            })
+        }else{
+            resp.redirect("/");
+        }
+    }).catch(erro =>{
+        resp.redirect("/");
+    })
+})
+
 
 app.listen(3000,()=>{
     console.log("o servidor está rodando")
 })
+
